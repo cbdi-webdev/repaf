@@ -1,0 +1,22 @@
+{
+    "name": "kaia/repaf-multi-step-form",
+    "description": "Multi-step REPAF shortcode form for WordPress.",
+    "type": "wordpress-plugin",
+    "license": "proprietary",
+    "require": {
+        "php": ">=7.4",
+        "tecnickcom/tcpdf": "^6.7"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Repaf\\": "src/"
+        }
+    }
+}

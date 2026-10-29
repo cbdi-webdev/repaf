@@ -1,0 +1,521 @@
+/* =========================================================
+   REPAF Admin Panel Styles
+   ========================================================= */
+
+.repaf-admin-wrap {
+    max-width: 1200px;
+
+    /* Theme color defaults — overridden by inline CSS from PHP */
+    --ra-primary:      #c2187a;
+    --ra-primary-dark: #9c145f;
+    --ra-primary-soft: #fff1f7;
+    --ra-border:       #f3c5dc;
+}
+
+.repaf-admin-wrap h1 {
+    margin-bottom: 16px;
+}
+
+/* =========================================================
+   Notices
+   ========================================================= */
+
+.repaf-admin-notice {
+    padding: 10px 16px;
+    border-left: 4px solid #ccc;
+    background: #fff;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    border-radius: 0 4px 4px 0;
+}
+
+.repaf-admin-notice--success {
+    border-left-color: #00a32a;
+}
+
+.repaf-admin-notice--error {
+    border-left-color: #d63638;
+}
+
+.repaf-admin-notice p {
+    margin: 0;
+}
+
+/* =========================================================
+   List Table
+   ========================================================= */
+
+.repaf-admin-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.repaf-admin-table {
+    border-collapse: collapse;
+    width: 100%;
+    background: #fff;
+    min-width: 600px;
+}
+
+.repaf-admin-table thead tr {
+    background: var(--ra-primary);
+}
+
+.repaf-admin-table th {
+    color: #fff;
+    font-weight: 600;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    border: none;
+}
+
+.repaf-admin-table td {
+    padding: 12px 14px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f1;
+    font-size: 13px;
+    color: #1d2327;
+}
+
+.repaf-admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.repaf-admin-table tbody tr:hover {
+    background: var(--ra-primary-soft);
+}
+
+.repaf-admin-id {
+    display: inline-block;
+    background: var(--ra-primary-soft);
+    color: var(--ra-primary);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* =========================================================
+   Action Buttons
+   ========================================================= */
+
+.repaf-admin-actions {
+    white-space: nowrap;
+}
+
+.repaf-admin-btn {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    margin-right: 6px;
+}
+
+.repaf-admin-btn:last-child {
+    margin-right: 0;
+}
+
+.repaf-admin-btn--edit {
+    background: #fff;
+    color: var(--ra-primary);
+    border: 1.5px solid var(--ra-primary);
+}
+
+.repaf-admin-btn--edit:hover {
+    background: var(--ra-primary-soft);
+    color: var(--ra-primary-dark);
+    border-color: var(--ra-primary-dark);
+}
+
+.repaf-admin-btn--pdf {
+    background: var(--ra-primary);
+    color: #fff;
+    border: 1.5px solid var(--ra-primary);
+}
+
+.repaf-admin-btn--pdf:hover {
+    background: var(--ra-primary-dark);
+    border-color: var(--ra-primary-dark);
+    color: #fff;
+}
+
+/* =========================================================
+   Badges
+   ========================================================= */
+
+.repaf-admin-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #e5e5e5;
+    color: #646970;
+    letter-spacing: 0.3px;
+}
+
+.repaf-admin-badge--yes {
+    background: var(--ra-primary-soft);
+    color: var(--ra-primary);
+    border: 1px solid var(--ra-border);
+}
+
+/* =========================================================
+   Pagination
+   ========================================================= */
+
+.repaf-admin-pagination {
+    margin-top: 16px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+/* =========================================================
+   Tabs
+   ========================================================= */
+
+.repaf-admin-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--ra-border);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.repaf-admin-tab {
+    background: #f0f0f1;
+    border: 1px solid #c3c4c7;
+    border-bottom: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1d2327;
+    position: relative;
+    bottom: -2px;
+    transition: background 0.15s;
+}
+
+.repaf-admin-tab:hover {
+    background: var(--ra-primary-soft);
+    color: var(--ra-primary);
+}
+
+.repaf-admin-tab.is-active {
+    background: #fff;
+    border-bottom-color: #fff;
+    color: var(--ra-primary);
+    font-weight: 600;
+}
+
+.repaf-admin-tab-panel {
+    display: none;
+}
+
+.repaf-admin-tab-panel.is-active {
+    display: block;
+}
+
+/* =========================================================
+   Field Groups
+   ========================================================= */
+
+.repaf-admin-field-group {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.repaf-admin-field-group h3 {
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--ra-border);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ra-primary);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.repaf-admin-field-group h3::after {
+    content: '▾';
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--ra-primary);
+    display: inline-block;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.repaf-admin-field-group.is-collapsed h3 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.repaf-admin-field-group.is-collapsed h3::after {
+    transform: rotate(-90deg);
+}
+
+.repaf-admin-field-group.is-collapsed .repaf-admin-section-body {
+    display: none;
+}
+
+.repaf-admin-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 12px;
+}
+
+.repaf-admin-field label {
+    flex: 0 0 220px;
+    width: 220px;
+    font-size: 13px;
+    color: #3c434a;
+    font-weight: 500;
+    white-space: normal;
+}
+
+.repaf-admin-field input[type="text"],
+.repaf-admin-field input[type="email"],
+.repaf-admin-field input[type="number"],
+.repaf-admin-field input[type="date"],
+.repaf-admin-field select {
+    flex: 1;
+    max-width: 420px;
+    padding: 6px 10px;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #1d2327;
+    background: #fff;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
+}
+
+.repaf-admin-field input:focus,
+.repaf-admin-field select:focus {
+    outline: none;
+    border-color: var(--ra-primary);
+    box-shadow: 0 0 0 1px var(--ra-primary);
+}
+
+.repaf-admin-field input.repaf-admin-field--disabled {
+    flex: 1;
+    max-width: 420px;
+    padding: 6px 10px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #646970;
+    background: #f0f0f1;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+/* =========================================================
+   Dynamic Rows (Bank, Loan, Ref)
+   ========================================================= */
+
+.repaf-admin-dynamic-row {
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    background: #fafafa;
+}
+
+.repaf-admin-dynamic-row strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #1d2327;
+}
+
+/* =========================================================
+   Conditional Fields
+   ========================================================= */
+
+.repaf-admin-conditional {
+    display: none;
+}
+
+.repaf-admin-conditional.is-visible {
+    display: flex;
+}
+
+/* =========================================================
+   Form Footer
+   ========================================================= */
+
+.repaf-admin-form-footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #c3c4c7;
+}
+
+/* =========================================================
+   Mobile — card layout (≤ 768px)
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .repaf-admin-table-wrapper {
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .repaf-admin-table {
+        min-width: 0;
+    }
+
+    .repaf-admin-table thead {
+        display: none;
+    }
+
+    .repaf-admin-table tbody,
+    .repaf-admin-table tr {
+        display: block;
+        width: 100%;
+    }
+
+    .repaf-admin-table tbody tr {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+        overflow: hidden;
+    }
+
+    .repaf-admin-table tbody tr:hover {
+        background: var(--ra-primary-soft);
+    }
+
+    /* Each cell = two-column row: label | value */
+    .repaf-admin-table td {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        align-items: start;
+        gap: 8px;
+        padding: 9px 14px;
+        border-bottom: 1px solid #f0f0f1;
+        box-sizing: border-box;
+        white-space: normal;
+    }
+
+    .repaf-admin-table td:last-child {
+        border-bottom: none;
+    }
+
+    /* Column label */
+    .repaf-admin-table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        font-size: 10px;
+        color: #646970;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        padding-top: 2px;
+        word-break: normal;
+    }
+
+    /* Value column — wraps long text, never clips */
+    .repaf-admin-table td .repaf-td-val {
+        display: block;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        text-align: right;
+        min-width: 0;
+    }
+
+    /* Actions cell — label stacks above buttons */
+    .repaf-admin-table td.repaf-admin-actions {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .repaf-admin-table td.repaf-admin-actions::before {
+        font-weight: 700;
+        font-size: 10px;
+    }
+
+    .repaf-admin-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-right: 0;
+        box-sizing: border-box;
+    }
+
+    /* Field groups — stack label above input */
+    .repaf-admin-field {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .repaf-admin-field label {
+        flex: none;
+        width: 100%;
+        margin-bottom: 4px;
+    }
+
+    .repaf-admin-field input[type="text"],
+    .repaf-admin-field input[type="email"],
+    .repaf-admin-field input[type="number"],
+    .repaf-admin-field input[type="date"],
+    .repaf-admin-field select,
+    .repaf-admin-field input.repaf-admin-field--disabled {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .repaf-admin-tabs {
+        gap: 4px;
+    }
+
+    .repaf-admin-tab {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .repaf-admin-wrap h1 {
+        font-size: 20px;
+    }
+
+    .repaf-admin-field-group {
+        padding: 12px 14px;
+    }
+}
+
+/* Remove number input spinners */
+.repaf-admin-wrap input[type="number"]::-webkit-inner-spin-button,
+.repaf-admin-wrap input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.repaf-admin-wrap input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

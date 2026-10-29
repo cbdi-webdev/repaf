@@ -1,0 +1,32 @@
+/**
+ * Philippines-first address dropdowns.
+ */
+
+.repaf-country-other {
+  margin-top: 8px;
+}
+
+.repaf-address-status {
+  display: block;
+  margin-top: 6px;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.repaf-address-status.is-success {
+  color: #287a4d;
+}
+
+.repaf-address-status.is-warning {
+  color: #9a6700;
+}
+
+.repaf-address-status.is-loading,
+.repaf-address-status.is-info {
+  color: var(--repaf-primary-dark);
+}
+
+.repaf-address-select:disabled {
+  cursor: wait;
+}

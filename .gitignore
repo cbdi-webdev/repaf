@@ -1,0 +1,50 @@
+# ============================================================
+# Composer
+# ============================================================
+# vendor/ is installed via `composer install` when building a release.
+# The installable release ZIP includes it; WordPress does not run Composer.
+# Never commit it — committing vendor bloats the repo and
+# makes security patches require manual file diffs instead
+# of a single `composer update` command.
+/vendor/
+
+# Composer lock file is intentionally committed for plugins
+# so every environment installs the exact same dependency
+# versions. Delete this line if you want floating updates.
+# composer.lock
+
+# ============================================================
+# WordPress generated files
+# ============================================================
+# Generated PDFs and CSVs live in wp-content/uploads at
+# runtime. Never commit them.
+/uploads/
+*.pdf
+*.csv
+
+# ============================================================
+# Development / OS noise
+# ============================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.bak
+*.swp
+*.swo
+.idea/
+.vscode/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# ============================================================
+# Build artefacts
+# ============================================================
+# If you add a JS/CSS build step, exclude source maps and
+# unminified output from production deploys.
+*.map
+/dist/
+
+# The website repository ignores license.txt globally; retain the bundled MIT license.
+!/libraries/plugin-update-checker/license.txt

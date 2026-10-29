@@ -1,0 +1,56 @@
+# Runs when this plugin's contents are the ROOT of its dedicated GitHub repository.
+name: Build REPAF release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.4', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, mbstring, zip
+          coverage: none
+      - name: Lint plugin and update checker
+        run: find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n 1 php -l
+      - name: Verify updater behavior
+        run: php tests/plugin-updates-test.php
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: curl, mbstring, zip
+          tools: composer:v2
+          coverage: none
+      - name: Install locked PDF dependency
+        run: composer install --no-dev --prefer-dist --no-interaction --no-scripts
+      - name: Build installable release
+        env:
+          REPAF_REPOSITORY: ${{ github.server_url }}/${{ github.repository }}
+          REPAF_TAG: ${{ github.ref_name }}
+        run: php tools/build-release.php --repository="$REPAF_REPOSITORY" --tag="$REPAF_TAG"
+      - name: Verify package and PDF dependency
+        run: php tests/release-package-test.php dist/repaf-multi-step-form-*.zip
+      - name: Create draft release with packaged ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPAF_TAG: ${{ github.ref_name }}
+        run: gh release create "$REPAF_TAG" dist/repaf-multi-step-form-*.zip --draft --verify-tag --title "REPAF $REPAF_TAG" --generate-notes
