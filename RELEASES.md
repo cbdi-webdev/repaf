@@ -79,6 +79,9 @@ retain the installed plugin under the live site's `wp-content/plugins/` director
    dependency, builds the ZIP with this repository's URL embedded, and creates a
    **draft** GitHub Release. The GitHub Actions workflow needs contents-write
    permission, granted in its release job.
+   To start or retry an existing tag manually, open **Actions > Build REPAF
+   release > Run workflow**, select `main`, and enter its existing `vX.Y.Z` tag.
+   Pushes to `main` also run the updater tests without creating a release.
 5. Review the draft and its ZIP. Install it on staging and verify form submission,
    editing, PDF generation and the correct site's artwork. Publish it as a stable
    release and mark it **latest**. Only then can installed sites discover it.
