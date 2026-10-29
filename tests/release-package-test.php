@@ -20,13 +20,30 @@ for ($i = 0; $i < $zip->numFiles; $i++) {
         || preg_match('~/(?:\.git|\.github|tests|tools|uploads|dist|node_modules)/|(?:^|/)\.env|wp-config\.php~', $name)) {
         throw new RuntimeException('Unexpected release entry: ' . $name);
     }
+    if (preg_match('~^' . preg_quote($prefix, '~') . 'assets/pdf/[^/]+\.(?:jpg|png)$~i', $name)) {
+        throw new RuntimeException('Redundant legacy artwork in release: ' . $name);
+    }
+    if (preg_match('~/fonts/(?:freeserif|freesans|cid0|dejavusanscondensed)~', $name)) {
+        throw new RuntimeException('Unused font in release: ' . $name);
+    }
+}
+if (filesize($argv[1]) >= 24 * 1048576) {
+    throw new RuntimeException('Release exceeds the 24 MiB packaging budget.');
 }
 foreach (array('repaf-multi-step-form.php', 'includes/plugin-updates.php', 'includes/update-source.php',
     'libraries/plugin-update-checker/plugin-update-checker.php', 'libraries/plugin-update-checker/license.txt',
     'libraries/plugin-update-checker/vendor/Parsedown-LICENSE.txt',
-    'templates/form-wrapper.php', 'assets/js/repaf-form.js', 'assets/pdf/repaf-page-1.jpg', 'composer.lock') as $required) {
+    'templates/form-wrapper.php', 'assets/js/repaf-form.js', 'composer.lock') as $required) {
     if ($zip->locateName($prefix . $required) === false) {
         throw new RuntimeException('Missing runtime file: ' . $required);
+    }
+}
+foreach (array('cbdi', 'kaia') as $profile) {
+    foreach (array('page-1', 'page-2', 'property-information', 'financial-information', 'salesperson-information', 'terms-and-conditions') as $page) {
+        $required = $prefix . 'assets/pdf/profiles/' . $profile . '/' . $page . '.jpg';
+        if ($zip->locateName($required) === false) {
+            throw new RuntimeException('Missing brand template: ' . $required);
+        }
     }
 }
 $temporary = sys_get_temp_dir() . '/repaf-release-test-' . bin2hex(random_bytes(8));
@@ -40,21 +57,9 @@ try {
     $count = $zip->numFiles;
     $zip->close();
     $root = $temporary . '/' . $prefix;
-    $tcpdf = is_file($root . 'vendor/tecnickcom/tcpdf/tcpdf.php')
-        ? $root . 'vendor/tecnickcom/tcpdf/tcpdf.php' : $root . 'vendor/tcpdf/tcpdf.php';
-    require $tcpdf;
-    $pdf = new TCPDF();
-    $pdf->setPrintHeader(false);
-    $pdf->setPrintFooter(false);
-    $pdf->AddPage();
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->Write(0, 'REPAF packaged PDF engine smoke test');
-    $pdf->Image($root . 'assets/pdf/repaf-page-1.jpg', 10, 30, 50);
-    $bytes = $pdf->Output('', 'S');
-    if (strpos($bytes, '%PDF-') !== 0 || strlen($bytes) < 1000) {
-        throw new RuntimeException('Packaged PDF engine did not produce a PDF.');
-    }
-    fwrite(STDOUT, 'Verified ' . $count . ' package entries; bundled TCPDF generated a PDF with packaged artwork.' . PHP_EOL);
+    require __DIR__ . '/pdf-package-fixture.php';
+    repaf_verify_packaged_forms($root, $temporary, isset($argv[2]) ? $argv[2] : null);
+    fwrite(STDOUT, 'Verified ' . $count . ' package entries and both complete branded forms.' . PHP_EOL);
 } finally {
     // Delete only the unique temporary directory this test created.
     $resolved = realpath($temporary);

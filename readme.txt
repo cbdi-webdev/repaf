@@ -2,7 +2,7 @@
 Contributors: cbdi-webdev
 Requires at least: 5.8
 Requires PHP: 7.4
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 License: Proprietary
 
 Multi-step Real Estate Purchase Agreement Form for CBDI and KAIA websites.
@@ -23,6 +23,11 @@ Third-party libraries retain their own licenses, included in their directories.
 3. Configure Settings > REPAF Form Settings and add [repaf_form] to your form page.
 
 == Changelog ==
+
+= 1.7.1 =
+* Reduce release ZIP size by excluding duplicate legacy artwork and unused TCPDF fonts.
+* Preserve both complete brand profiles and the exact original image resolution and quality.
+* Verify all six PDF pages, checkmarks and bold text for both CBDI and KAIA from the packaged plugin.
 
 = 1.7.0 =
 * Add GitHub release update checks and native WordPress update integration.

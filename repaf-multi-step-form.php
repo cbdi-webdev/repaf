@@ -3,7 +3,7 @@
 /**
  * Plugin Name: REPAF Multi-Step Form
  * Description: Multi-step REPAF shortcode form for WordPress.
- * Version: 1.7.0
+ * Version: 1.7.1
  * Author: CBDI / KAIA
  * Plugin URI: https://github.com/cbdi-webdev/repaf
  * Requires at least: 5.8
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('REPAF_VERSION', '1.7.0');
+define('REPAF_VERSION', '1.7.1');
 define('REPAF_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('REPAF_PLUGIN_URL', plugin_dir_url(__FILE__));
 

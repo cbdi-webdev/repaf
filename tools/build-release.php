@@ -49,8 +49,16 @@ $required = array(
     'libraries/plugin-update-checker/plugin-update-checker.php',
     'libraries/plugin-update-checker/load-v5p7.php',
     'libraries/plugin-update-checker/license.txt',
-    'assets/pdf/repaf-page-1.jpg', 'composer.lock', 'readme.txt',
+    'composer.lock', 'readme.txt',
 );
+$profileAssets = array();
+foreach (array('cbdi', 'kaia') as $profile) {
+    foreach (array('page-1', 'page-2', 'financial-information', 'property-information', 'salesperson-information', 'terms-and-conditions') as $page) {
+        $profileAssets[] = 'assets/pdf/profiles/' . $profile . '/' . $page . '.jpg';
+    }
+}
+// Every release carries complete profiles, so legacy root artwork is redundant.
+$required = array_merge($required, $profileAssets);
 foreach ($required as $file) {
     if (!is_file($root . '/' . $file)) {
         repaf_build_fail('Missing required release file: ' . $file);
@@ -60,7 +68,22 @@ foreach ($required as $file) {
 // Both existing manual installs and fresh Composer installs are supported.
 $tcpdf = is_file($root . '/vendor/tecnickcom/tcpdf/tcpdf.php')
     ? 'vendor/tecnickcom/tcpdf' : 'vendor/tcpdf';
-foreach (array('tcpdf.php', 'include/tcpdf_static.php', 'fonts/helvetica.php', 'LICENSE.TXT') as $file) {
+$requiredTcpdf = array('tcpdf.php', 'include/tcpdf_static.php', 'LICENSE.TXT');
+$fontFiles = array('symbol.php', 'zapfdingbats.php');
+foreach (array('helvetica', 'courier', 'times') as $family) {
+    foreach (array('', 'b', 'i', 'bi') as $style) {
+        $fontFiles[] = $family . $style . '.php';
+    }
+}
+foreach (array('', 'b', 'i', 'bi') as $style) {
+    foreach (array('php', 'z', 'ctg.z') as $extension) {
+        $fontFiles[] = 'dejavusans' . $style . '.' . $extension;
+    }
+}
+foreach ($fontFiles as $font) {
+    $requiredTcpdf[] = 'fonts/' . $font;
+}
+foreach ($requiredTcpdf as $file) {
     if (!is_file($root . '/' . $tcpdf . '/' . $file)) {
         repaf_build_fail('TCPDF is incomplete. Run composer install --no-dev --prefer-dist first. Missing: ' . $file);
     }
@@ -102,7 +125,22 @@ foreach (array('assets', 'includes', 'integration', 'templates', 'libraries', 'v
     ));
     foreach ($iterator as $entry) {
         if ($entry->isFile()) {
-            $files[] = str_replace('\\', '/', substr($entry->getPathname(), strlen($root) + 1));
+            $file = str_replace('\\', '/', substr($entry->getPathname(), strlen($root) + 1));
+            if (strpos($file, 'assets/pdf/') === 0 && !in_array($file, $profileAssets, true)) {
+                continue;
+            }
+            // A source checkout can contain both old and Composer vendor layouts.
+            if ($tcpdf !== 'vendor/tcpdf' && strpos($file, 'vendor/tcpdf/') === 0) {
+                continue;
+            }
+            $fontPrefix = $tcpdf . '/fonts/';
+            if (strpos($file, $fontPrefix) === 0) {
+                $font = substr($file, strlen($fontPrefix));
+                if (!in_array($font, $fontFiles, true) && !preg_match('/(?:license|copying|readme)/i', $font)) {
+                    continue;
+                }
+            }
+            $files[] = $file;
         }
     }
 }
@@ -119,6 +157,7 @@ if (!$zip->close()) {
     repaf_build_fail('Could not finish writing the release ZIP.');
 }
 fwrite(STDOUT, 'Built ' . realpath($destination) . ' (' . count($files) . ' files)' . PHP_EOL);
+fwrite(STDOUT, 'ZIP size: ' . round(filesize($destination) / 1048576, 2) . ' MiB; original template image bytes preserved.' . PHP_EOL);
 if ($repository === '') {
     fwrite(STDOUT, 'No default repository embedded. Configure it under Settings > REPAF Form Settings after installation.' . PHP_EOL);
 } else {

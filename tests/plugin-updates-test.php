@@ -86,7 +86,8 @@ function get_plugin_data($path, $markup = false, $translate = false) {
     foreach ($headers as $key => $label) {
         $result[$key] = preg_match('/^[ \t\/*#@]*' . preg_quote($label, '/') . ':(.*)$/mi', $contents, $match) ? trim($match[1]) : '';
     }
-    if ($GLOBALS['repaf_test']['live']) { $result['Version'] = '1.6.9'; }
+    // Keep synthetic release fixtures independent of the current source version.
+    $result['Version'] = $GLOBALS['repaf_test']['live'] ? '1.6.9' : '1.7.0';
     return $result;
 }
 class WP_Error {
@@ -160,6 +161,9 @@ if ($GLOBALS['repaf_test']['live']) {
     $checker = Repaf\repaf_initialize_updates();
     $update = $checker->checkForUpdates();
     repaf_assert($update !== null && version_compare($update->version, '1.6.9', '>'), 'Public release is discoverable by an older installation');
+    if (isset($argv[2])) {
+        repaf_assert($update->version === $argv[2], 'Expected public release version ' . $argv[2]);
+    }
     $native = $checker->injectUpdate((object) array('response' => array()));
     $key = 'repaf-multi-step-form/repaf-multi-step-form.php';
     repaf_assert(isset($native->response[$key]->package), 'Public release reaches WordPress update data');

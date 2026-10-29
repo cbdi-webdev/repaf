@@ -2,7 +2,7 @@
 
 Canonical source and public releases: https://github.com/cbdi-webdev/repaf
 
-REPAF 1.7.0 bundles Plugin Update Checker 5.7. It checks a configured **public
+REPAF bundles Plugin Update Checker 5.7. It checks a configured **public
 GitHub repository** approximately every 12 hours and integrates with WordPress's
 Plugins screen, version details, manual update checks and optional auto-updates.
 WordPress cron and site traffic affect when scheduled checks run.
@@ -27,7 +27,7 @@ WordPress cron and site traffic affect when scheduled checks run.
    php tools/build-release.php --repository=https://github.com/cbdi-webdev/repaf
    ```
 
-   The ZIP appears at `dist/repaf-multi-step-form-1.7.0.zip`. It includes TCPDF,
+   The ZIP appears at `dist/repaf-multi-step-form-1.7.1.zip`. It includes TCPDF,
    the update checker, PDFs/artwork and runtime assets, with one top-level
    `repaf-multi-step-form/` directory. Do not use GitHub's automatic source ZIP.
    The builder accepts the existing `vendor/tcpdf/` layout or Composer's
@@ -54,7 +54,14 @@ The source file `includes/update-source.php` defaults to this repository. The bu
 embeds the chosen default into the ZIP without modifying that source file or the
 current site's database. No GitHub requests are made without a configured source.
 
-The release ZIP includes the existing PDF artwork and TCPDF fonts and can be
+Release 1.7.1 packages only the twelve current CBDI/KAIA template images and the
+fonts needed for form text, bold names, checkmarks and TCPDF's standard fonts.
+The exact original template image bytes are preserved. Legacy artwork and unused
+font families remain in source/dependencies but are excluded from the ZIP.
+The builder requires both complete brand profiles; a partial profile fails the
+build. Package tests generate both six-page forms and enforce a 24 MiB ZIP limit.
+
+The release ZIP includes PDF artwork and TCPDF fonts and can still be
 larger than a host's default upload limit. If necessary, increase the site's
 upload limit or deploy the extracted plugin folder through your hosting tools.
 
@@ -74,7 +81,7 @@ retain the installed plugin under the live site's `wp-content/plugins/` director
    directory are replaced on updates.
 2. Increase `Version` and `REPAF_VERSION` in `repaf-multi-step-form.php`, plus
    `Stable tag` and the changelog in `readme.txt`. Use stable `X.Y.Z` versions.
-3. Commit, then create and push a matching Git tag, for example `v1.7.1`.
+3. Commit, then create and push a matching Git tag, for example `v1.7.2`.
 4. GitHub Actions tests the updater on PHP 7.4 and 8.4, installs the locked TCPDF
    dependency, builds the ZIP with this repository's URL embedded, and creates a
    **draft** GitHub Release. The GitHub Actions workflow needs contents-write
@@ -110,7 +117,10 @@ modifies a WordPress database. The ordinary test run stays fully offline.
 
 After building, run
 `php tests/release-package-test.php dist/repaf-multi-step-form-X.Y.Z.zip` to inspect
-the actual ZIP and generate an in-memory PDF using its bundled TCPDF and artwork.
+the actual ZIP and generate complete six-page CBDI and KAIA PDFs using its bundled
+TCPDF, profiles, checkmark font and bold font. Passing a second directory argument
+retains the synthetic PDFs there for visual comparison; otherwise all generated
+fixtures are temporary and cleaned up.
 
 If no update appears, confirm the repository is public, the release is published
 and latest, its ZIP has the exact name above, the remote plugin version is newer,

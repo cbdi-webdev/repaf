@@ -294,6 +294,12 @@ The wizard has 10 numbered screens. In buyer mode, salesperson-only steps 8–9 
 
 ## Changelog
 
+### 1.7.1
+
+- Reduce the installable ZIP by omitting redundant legacy artwork and unused TCPDF fonts; source originals are retained.
+- Keep complete CBDI and KAIA profiles with their original image bytes and resolution.
+- Test complete six-page PDFs for both profiles, including Unicode checkmarks and bold names, from the actual packaged plugin.
+
 ### 1.7.0
 
 - Add configurable GitHub release checks, WordPress update notifications and optional auto-updates.
