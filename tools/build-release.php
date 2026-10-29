@@ -126,7 +126,9 @@ foreach (array('assets', 'includes', 'integration', 'templates', 'libraries', 'v
     foreach ($iterator as $entry) {
         if ($entry->isFile()) {
             $file = str_replace('\\', '/', substr($entry->getPathname(), strlen($root) + 1));
-            if (strpos($file, 'assets/pdf/') === 0 && !in_array($file, $profileAssets, true)) {
+            // Preserve supported coordinate JSON and future profile resources;
+            // only the duplicate legacy images at the PDF root are omitted.
+            if (preg_match('~^assets/pdf/[^/]+\.(?:jpg|jpeg|png|gif|webp)$~i', $file)) {
                 continue;
             }
             // A source checkout can contain both old and Composer vendor layouts.
