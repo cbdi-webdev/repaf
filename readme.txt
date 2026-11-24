@@ -2,7 +2,7 @@
 Contributors: cbdi-webdev
 Requires at least: 5.8
 Requires PHP: 7.4
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 License: Proprietary
 
 Multi-step Real Estate Purchase Agreement Form for CBDI and KAIA websites.
@@ -23,6 +23,10 @@ Third-party libraries retain their own licenses, included in their directories.
 3. Configure Settings > REPAF Form Settings and add [repaf_form] to your form page.
 
 == Changelog ==
+
+= 1.7.2 =
+* Export the buyer's years of employment or business in the daily reservation CSV's current employer tenure column.
+* Preserve optional PDF coordinate resources in the release ZIP.
 
 = 1.7.1 =
 * Reduce release ZIP size by excluding duplicate legacy artwork and unused TCPDF fonts.
