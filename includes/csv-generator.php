@@ -103,10 +103,7 @@ function repaf_daily_batch_cis_columns()
         array('header' => 'Personal Contact', 'field' => 'buyer_mobile'),
         array('header' => 'Pagibig No', 'field' => 'buyer_pagibig_mid'),
         array('header' => 'Employer Contact', 'field' => null),
-        array(
-            'header' => 'Years of stay / Current Employer',
-            'first_nonempty_fields' => array('buyer_years_employed', 'buyer_years_in_business'),
-        ),
+        array('header' => 'Years of stay / Current Employer', 'field' => 'buyer_employed_date'),
         array('header' => 'Membership GSIS/SSS', 'field' => null),
         array('header' => 'SSS/GSIS', 'field' => null),
         array('header' => 'Housing Availment', 'field' => null),
